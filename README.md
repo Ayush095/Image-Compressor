@@ -1,4 +1,4 @@
-<img width="1470" alt="Screenshot 2024-09-12 at 11 48 33 PM" src="https://github.com/user-attachments/assets/178475b3-ee20-4900-8365-5ce27224c420">How to Run the Project
+How to Run the Project
 Steps:
 1. Clone the Repository: git clone https://github.com/Ayush095/Image-Compressor.git
 
@@ -22,7 +22,12 @@ Documentation Of Designing: https://excalidraw.com/#json=jM9GBmGOi0H6c26RdvONt,o
 
 Sample CSV File: https://drive.google.com/file/d/1w1eRPU_ahZ1NiyrOTkn3AjPZvplJbGA5/view?usp=sharing
 
-Please let me know if something is inaccessible. I really made efforts to build this
+Please let me know if you encounter any issues with accessing the links or if something isn’t working as expected.
+
+I’m enthusiastic about exploring further solutions and scaling them, but due to time constraints and my current work commitments, I focused on fulfilling all the requirements outlined in the assessment.
+
+Thank you for the opportunity. I look forward to any feedback and the next steps.
+
 
 Working Images: 
 <img width="1470" alt="Screenshot 2024-09-12 at 11 45 06 PM" src="https://github.com/user-attachments/assets/c51d4251-3b7d-45e6-a083-bed53d99c47a">
