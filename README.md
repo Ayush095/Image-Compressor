@@ -6,7 +6,7 @@ Steps:
 
 3. Run MongoDB Locally: sudo mongod --dbpath <path-to-your-data-db-folder>
 
-4. Navigate to the src/ Directory:** cd src/
+4. Navigate to the src/ Directory: cd src/
 
 5. Run the server: nodemon server.js or node server.js
 
