@@ -3,8 +3,11 @@ import fs from 'fs';
 import Product from '../models/productModel.js';
 import processImages from '../services/compressorService.js';
 import { v4 as uuidv4 } from 'uuid';
+import util from 'util';
 
-const uploadController = async (req, res) => {
+const unlinkFile = util.promisify(fs.unlink); // Return promise
+
+const uploadFileController = async (req, res) => {
     try {
         const fileData = fs.readFileSync(req.file.path);
         const records = parse(fileData, { columns: true, skip_empty_lines: true });
@@ -16,25 +19,39 @@ const uploadController = async (req, res) => {
 
         const requestId = uuidv4(); // Generate a unique ID for the whole file.
 
-        records.forEach(async (record) => {
-            await Product.create({
-                serialNumber: record.SerialNumber,
-                productName: record.ProductName,
-                inputImageUrls: record.InputImageUrls.split(','),
-                requestId,
-                status: 'processing'
+        // Insert records into the database in parallel using Promise.all
+        await Promise.all(
+            records.map(record =>
+                Product.create({
+                    serialNumber: record.SerialNumber,
+                    productName: record.ProductName,
+                    inputImageUrls: record.InputImageUrls.split(','),
+                    requestId,
+                    status: 'processing'
+                })
+            )
+        );
+
+        // Process images and delete file in parallel
+        const processTask = processImages(records, requestId);
+        const deleteTask = unlinkFile(req.file.path);
+
+        res.json({ message: 'File processed and deleted from server', requestId });
+        // Run both tasks in parallel using Promise.all
+        Promise.all([processTask, deleteTask])
+            .then(() => {
+                console.log(`File ${req.file.path} deleted and images processed successfully.`);
+            })
+            .catch((err) => {
+                console.error('Error during background tasks:', err);
             });
-        });
 
-        setTimeout(() => {
-            processImages(records, requestId); // Process images asynchronously.
-        }, 100000); // Timeout set for 100,000 ms (100 seconds)
+        console.log(`CSV File deleted from server and images processed successfully.`);
 
-        res.json({ message: 'File is being processed & Deleted From Server', requestId });
     } catch (err) {
         console.error('Error processing file:', err);
         res.status(500).send('Error processing file');
     }
 };
 
-export default uploadController;
+export default uploadFileController;
