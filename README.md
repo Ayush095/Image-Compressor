@@ -1,3 +1,6 @@
+A CSV parser that extracts image links, then compresses the images by 50%.
+
+New learning: Worker threads to handle the tasks parallelly.
 How to Run the Project
 Steps:
 1. Clone the Repository: git clone https://github.com/Ayush095/Image-Compressor.git
